@@ -80,9 +80,7 @@ function renderIndex() {
 }
 
 function renderWriter() {
-  document.querySelector("#timestamp").innerHTML = `${
-    userMessages.writer.savedText
-  }: ${new Date().toLocaleTimeString()}`;
+  updateTimestamp(userMessages.writer.savedText);
   renderNotes();
 
   const addButton = new Button(userMessages.writer.addButton, () => {
@@ -98,13 +96,12 @@ function renderWriter() {
 }
 
 function renderReader() {
-  notes = JSON.parse(localStorage.getItem("notes")) || [];
   renderNotes();
-  updateTimestamp();
+  updateTimestamp(userMessages.reader.updateText);
   setInterval(() => {
     notes = JSON.parse(localStorage.getItem("notes")) || [];
     renderNotes();
-    updateTimestamp();
+    updateTimestamp(userMessages.reader.updateText);
   }, 2000);
 
   document
@@ -114,9 +111,7 @@ function renderReader() {
 
 function saveNotes() {
   localStorage.setItem("notes", JSON.stringify(notes));
-  document.querySelector("#timestamp").textContent = `${
-    userMessages.writer.savedText
-  }: ${new Date().toLocaleTimeString()}`;
+  updateTimestamp(userMessages.writer.savedText);
 }
 
 function renderNotes() {
@@ -127,8 +122,8 @@ function renderNotes() {
   });
 }
 
-function updateTimestamp() {
-  document.querySelector("#timestamp").textContent = `${
-    userMessages.reader.updateText
-  }: ${new Date().toLocaleTimeString()}`;
+function updateTimestamp(text) {
+  document.querySelector(
+    "#timestamp"
+  ).textContent = `${text}: ${new Date().toLocaleTimeString()}`;
 }
