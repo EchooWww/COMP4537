@@ -19,6 +19,10 @@ class Server {
   handleRequest(req, res) {
     const parsedUrl = url.parse(req.url, true);
     let query = parsedUrl.query;
+    if (req.method === "GET" && req.url === "/health") {
+      res.writeHead(200, { "Content-Type": "text/plain" });
+      return res.end("OK");
+    }
     if (parsedUrl.pathname === "/api/definitions") {
       if (req.method === "GET") {
         this.searchHandler(query, res);
@@ -81,7 +85,10 @@ class Server {
     } else {
       const newItem = new Definition(word, definition);
       this.dictionary.push(newItem);
-      this.handleSuccess(res, newItem);
+      this.handleSuccess(res, {
+        ...newItem,
+        wordCount: this.dictionary.length,
+      });
     }
   }
 
