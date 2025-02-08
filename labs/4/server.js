@@ -25,6 +25,9 @@ class Server {
     }
     if (parsedUrl.pathname === "/api/definitions") {
       if (req.method === "GET") {
+        if (Object.keys(query).length === 0) {
+          return this.handleUsage(res);
+        }
         this.searchHandler(query, res);
       } else if (req.method === "POST") {
         let body = "";
@@ -98,6 +101,14 @@ class Server {
 
   badRequestHandler(res, message) {
     this.handleError(res, 400, message);
+  }
+
+  handleUsage(res) {
+    res.writeHead(200, {
+      "Content-Type": "text/html",
+      "access-control-allow-origin": "*",
+    });
+    res.end(messages.usage);
   }
 
   handleWarning(res, message) {
