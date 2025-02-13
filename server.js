@@ -3,6 +3,7 @@ const url = require("url");
 const messages = require("./lang/en/en");
 const mysql = require("mysql2");
 
+// Disclosure: Used ChatGPT 4o in hosting MySQL DB on Google Cloud and SSL connection
 const dbConfig = {
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
@@ -47,6 +48,7 @@ class Database {
   }
 
   executeQuery(query, callback, params = []) {
+    // Disclosure: Used ChatGPT 4o for Regex pattern generation, same for all other regex patterns in this file
     if (/^\s*(DROP|DELETE|UPDATE)\s/i.test(query)) {
       callback(messages.INVALID_QUERY, null);
       return;
@@ -92,7 +94,6 @@ class Server {
       req.on("data", (chunk) => {
         body += chunk;
       });
-      let data;
       req.on("end", () => {
         try {
           const data = JSON.parse(body);
