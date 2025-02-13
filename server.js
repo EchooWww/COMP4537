@@ -68,8 +68,9 @@ class Server {
 
   handleRequest(req, res) {
     const parsedUrl = url.parse(req.url, true);
-    const queryStr = parsedUrl.query.q;
     res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     res.setHeader("Content-Type", "application/json");
 
     if (req.method === "GET" && parsedUrl.pathname.startsWith("/api/v1/sql")) {
