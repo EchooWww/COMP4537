@@ -53,6 +53,7 @@ class Database {
       callback(messages.INVALID_QUERY, null);
       return;
     }
+    this.createTable();
     this.connection.execute(query, params, (err, results) => {
       if (err) callback(err, null);
       else callback(null, results);
